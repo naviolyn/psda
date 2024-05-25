@@ -131,7 +131,6 @@ void deleteTransactions(Transaction*& head) {
 // Fungsi untuk mencetak transaksi dan total pengeluaran per kategori
 // Fungsi untuk mencetak transaksi dan total pengeluaran per kategori
 int printTransactionsAndTotalExpense(Transaction* head) {
-
     const string filename = "transactions.txt";
 
     // Muat transaksi dari file
@@ -159,39 +158,39 @@ int printTransactionsAndTotalExpense(Transaction* head) {
     cout << "4. Hapus Semua Data" << endl;
     cout << "=>  ";
     cin >> pilihan;
+
     if (pilihan == 1) {
         tipe = "income"; // Ganti dari "Income" ke "income"
         kategori = "Salary";
         cout << "Masukkan jumlah: " << endl;
         cin >> jumlah;
         addTransaction(head, tipe, kategori, jumlah);
-    } if (pilihan == 2) {
-    tipe = "expense"; // Ganti dari "Expense" ke "expense"
-    cout << "Masukkan kategori transaksi: " << endl;
-    cin >> kategori;
-    cout << "Masukkan jumlah transaksi: " << endl;
-    cin >> jumlah;
-
-    // Hitung total saldo saat ini
-    double currentBalance = 0.0;
-    Transaction* current = head;
-    while (current != nullptr) {
-        if (current->type == "income") {
-            currentBalance += current->amount;
-        } else if (current->type == "expense") {
-            currentBalance -= current->amount;
+    } else if (pilihan == 2) {
+        tipe = "expense"; // Ganti dari "Expense" ke "expense"
+        cout << "Masukkan kategori transaksi: " << endl;
+        cin >> kategori;
+        cout << "Masukkan jumlah transaksi: " << endl;
+        cin >> jumlah;
+        
+        // Hitung total saldo saat ini
+        double currentBalance = 0.0;
+        Transaction* current = head;
+        while (current != nullptr) {
+            if (current->type == "income") {
+                currentBalance += current->amount;
+            } else if (current->type == "expense") {
+                currentBalance -= current->amount;
+            }
+            current = current->next;
         }
-        current = current->next;
-    }
 
-    // Cek apakah jumlah pengeluaran melebihi saldo saat ini
-    if (jumlah > currentBalance) {
-        cout << "Transaksi gagal. Jumlah pengeluaran melebihi saldo saat ini.\n";
-    } else {
-        addTransaction(head, tipe, kategori, jumlah);
-    }
-}
-        else if (pilihan == 3) { // Tambahkan kondisi untuk menampilkan saldo
+        // Cek apakah jumlah pengeluaran melebihi saldo saat ini
+        if (jumlah > currentBalance) {
+            cout << "Transaksi gagal. Jumlah pengeluaran melebihi saldo saat ini.\n";
+        } else {
+            addTransaction(head, tipe, kategori, jumlah);
+        }
+    } else if (pilihan == 3) { // Tambahkan kondisi untuk menampilkan saldo
         // Hitung saldo
         Transaction* current = head;
         while (current != nullptr) {
@@ -228,8 +227,10 @@ int printTransactionsAndTotalExpense(Transaction* head) {
     cout << "| " << left << setw(10) << "Type" << "| " << setw(15) << "Category" << "| " << right << setw(10) << "Amount" << " |" << endl;
     cout << "-------------------------------------------" << endl;
 
+    // Menggunakan ulang variabel current untuk mencetak transaksi
+    Transaction* current = head; 
+
     // Mencetak transaksi dan menghitung total pengeluaran per kategori
-    Transaction* current = head;
     while (current != nullptr) {
         cout << "| " << left << setw(10) << current->type
              << "| " << setw(15) << current->category
